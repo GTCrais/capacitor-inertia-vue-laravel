@@ -1,0 +1,17 @@
+{
+    "appId": "consulting.bluem2.capatest",
+    "appName": "CapaTest",
+    "webDir": "public/build/assets",
+    "server": {
+        "androidScheme": "http",
+        "cleartext": true
+    },
+    "android": {
+        "path": "mobile/android"
+    },
+    "plugins": {
+        "CapacitorCookies": {
+            "enabled": true
+        }
+    }
+}
