@@ -10,8 +10,6 @@
         "path": "mobile/android"
     },
     "plugins": {
-        "CapacitorCookies": {
-            "enabled": true
-        }
+
     }
 }
