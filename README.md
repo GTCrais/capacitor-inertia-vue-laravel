@@ -41,5 +41,6 @@ If you're, for example, running your app on Laragon and serving it on `https://c
     - First, it runs the `npm`'s `build` command to build the assets
     - Next, it ensures that in the compiled `index.html` all absolute paths (`https://{app.url}`) are replaced with relative paths, i.e. all `https://{app.url}` strings are deleted since the assets are in the same folder as the `index.html`
     - Before compiling the `index.html` from our Blade template, it replaces the `window.app_base_url`'s value with our exposed URL. This will allow the Capacitor app to make requests to the correct URL. This means you can serve the app for web browsers on a "standard" URL like `https://capacitor.test`, and then also expose it to the Capacitor app on `http://192.168.x.x:8000` at the same time. In production these URLs will be the same, but for local development this is not possible, as far as I'm aware
-    - It compiles Blade template into `index.html` in `public/build/assets` (this is where Vite puts compiled JS and CSS assets)
+    - It compiles Blade template into `index.html` and puts it in `public/build/assets` (this is where Vite puts compiled JS and CSS assets)
     - It runs `npx cap sync` which syncs your compiled files to the Capacitor app's folder
+7. Authentication from Capacitor - WIP. Actually, work hasn't even been started on this yet, but it should be relatively simple, using Sanctum's docs for API Token Authentication
