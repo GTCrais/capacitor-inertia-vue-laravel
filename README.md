@@ -17,10 +17,13 @@ stateful and stateless requests.
 #### Notes
 - I'm using Windows, so Mac users will probably need to adapt a thing or two here and there
 - I assume you've read the Capacitor's docs (or at least skimmed through them, so you understand how it works), and that you have Android Studio installed
+- This repository, as stated, uses Laravel, Vue, and Inertia. If you want to apply the steps listed below to your own app, it's expected that that app is already set up with the mentioned stack
 
 #### Deviations from defaults
-- `HandleInertiaRequest` - root view set to `default` (optional)
-- `EnsureFrontendRequestsAreStateful` - wrapped in `SanctumMiddleware` custom middleware due to a bug (more on that later)
+- `HandleInertiaRequest` - root view set to `default` (optional). `auth()->user()` added to `share()` method
+- `EnsureFrontendRequestsAreStateful` - wrapped in `SanctumMiddleware` custom middleware due to a bug in Sanctum documented [here](https://github.com/laravel/sanctum/issues/482). When using `SanctumMiddleware` which addresses this bug, you need to make sure to set Sanctum's `stateful` domains correctly, so it wouldn't recognize your Capacitor's requests as stateful, since they're, by default, coming from `http://localhost` for Android apps
+- `RouteServiceProvider` - set `HOME` to `/account` (optional). Wrapped routes in `api` middleware group, instead of `web`
+- `App\Http\Kernel` - added `SanctumMiddleware` and `HandleInertialRequest` middleware to the `api` middleware group
 - `capacitor.config.json` - android path set to `mobile/android` (optional)
 - `app` config - added `exposed_url`
 - `sanctum` config - made sure that only local dev URL and production URL for web browsers are set as `stateful` domains 

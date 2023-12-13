@@ -24,12 +24,7 @@
 								focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6 outline-0"
 							maxlength="150"
 							v-model="form.email"
-							@input="resetError('email')"
 						/>
-
-						<div class="text-sm text-red-500 -mb-3" v-if="form.errors.email">
-							{{ form.errors.email }}
-						</div>
 					</div>
 
 					<div class="mb-6">
@@ -46,12 +41,7 @@
 								focus:ring-2 focus:ring-inset focus:ring-orange-300 sm:text-sm sm:leading-6 outline-0"
 							maxlength="150"
 							v-model="form.password"
-							@input="resetError('password')"
 						/>
-
-						<div class="text-sm text-red-500 -mb-3" v-if="form.errors.password">
-							{{ form.errors.password }}
-						</div>
 					</div>
 
 					<div v-if="form.errors.general" class="-mt-3 mb-3 text-red-500 text-center">
@@ -75,7 +65,7 @@
 
 <script>
 	import { Head, useForm } from '@inertiajs/vue3'
-
+	import { Capacitor } from '@capacitor/core';
 
 	export default {
 		components: {
@@ -91,7 +81,8 @@
 				form: useForm({
 					email: null,
 					password: null
-				})
+				}),
+				generalError: null
 			};
 		},
 
@@ -109,11 +100,24 @@
 					return;
 				}
 
-				this.form.post(window.app_base_url + '/login', { preserveScroll: true });
-			},
+				this.form.clearErrors('general');
 
-			resetError(field) {
-				this.form.clearErrors(field, 'general');
+				if (Capacitor.isNativePlatform()) {
+					this.form.processing = true;
+
+					axios.post(window.app_base_url + '/mobile/login', { email: this.form.email, password: this.form.password})
+						.then((token) => {
+							console.error(token);
+							this.form.processing = false;
+						})
+						.catch((error) => {
+						    console.error(error);
+							this.form.setError('general', 'Incorrect login credentials');
+							this.form.processing = false;
+						});
+				} else {
+					this.form.post(window.app_base_url + '/login', { preserveScroll: true });
+				}
 			}
 		},
 
