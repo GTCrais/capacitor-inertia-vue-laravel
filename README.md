@@ -18,7 +18,7 @@ stateful and stateless requests.
 - This repository, as stated, uses Laravel, Vue, and Inertia. If you want to apply the steps listed below to your own app, it's expected that that app is already set up using this stack
 
 ### Deviations from defaults
-- `HandleInertiaRequest` - root view set to `default` (optional). `auth()->user()` added to `share()` method
+- `HandleInertiaRequest` - root view set to `default`. `auth()->user()` added to `share()` method
 - `EnsureFrontendRequestsAreStateful` - wrapped in `SanctumMiddleware` custom middleware due to a bug in Sanctum documented [here](https://github.com/laravel/sanctum/issues/482).  
 When using `SanctumMiddleware` which addresses this bug, you need to make sure to set Sanctum's `stateful` domains correctly, so it wouldn't recognize your Capacitor's requests as stateful, since they're, by default, coming from `http://localhost` for Android apps.  
 Additionally, `SanctumMiddleware` will dynamically set the auth guard to `sanctum` when the request is coming from a mobile app. This will allow us to have access to `$request->user()` on routes not protected by `auth:sanctum` middleware
