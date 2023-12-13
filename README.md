@@ -22,7 +22,7 @@ stateful and stateless requests.
 - `EnsureFrontendRequestsAreStateful` - wrapped in `SanctumMiddleware` custom middleware due to a bug in Sanctum documented [here](https://github.com/laravel/sanctum/issues/482).  
 When using `SanctumMiddleware` which addresses this bug, you need to make sure to set Sanctum's `stateful` domains correctly, so it wouldn't recognize your Capacitor's requests as stateful, since they're, by default, coming from `http://localhost` for Android apps.  
 Additionally, `SanctumMiddleware` will dynamically set the auth guard to `sanctum` when the request is coming from a mobile app. This will allow us to have access to `$request->user()` on routes not protected by `auth:sanctum` middleware
-- `RouteServiceProvider` - set `HOME` to `/account`. Wrapped routes in `api` middleware group, instead of `web`
+- `RouteServiceProvider` - set `HOME` to `/account`. Wrapped routes in `api` instead of `web` middleware group
 - `App\Http\Kernel` - added `SanctumMiddleware` and `HandleInertialRequest` middleware to the `api` middleware group
 - `capacitor.config.json` - android path set to `mobile/android`
 - `app` config - added `exposed_url`
