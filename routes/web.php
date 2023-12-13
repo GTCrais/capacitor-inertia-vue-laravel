@@ -15,19 +15,15 @@ use Illuminate\Support\Str;
 |
 */
 
-$usingSanctum = true;
-$authMiddleware = $usingSanctum ? 'auth:sanctum' : 'auth';
-$guestMiddleware = $usingSanctum ? 'guest:sanctum' : 'guest';
-
 Route::get('/', function() {
 	return \Inertia\Inertia::render('Home');
 });
 
-Route::middleware($guestMiddleware)->get('/login', function() {
+Route::middleware('guest:sanctum')->get('/login', function() {
 	return \Inertia\Inertia::render('Login');
 });
 
-Route::middleware($guestMiddleware)->post('/login', function(\Illuminate\Http\Request $request) {
+Route::middleware('guest:sanctum')->post('/login', function(\Illuminate\Http\Request $request) {
 	if (auth()->attempt($request->only('email', 'password'))) {
 		return redirect('/account');
 	}
@@ -37,7 +33,7 @@ Route::middleware($guestMiddleware)->post('/login', function(\Illuminate\Http\Re
 	]);
 });
 
-Route::middleware($guestMiddleware)->post('/mobile/login', function(\Illuminate\Http\Request $request) {
+Route::middleware('guest:sanctum')->post('/mobile/login', function(\Illuminate\Http\Request $request) {
 	$user = User::where('email', $request->input('email'))->first();
 
 	if (!$user || !Hash::check($request->input('password'), $user->password)) {
@@ -47,15 +43,13 @@ Route::middleware($guestMiddleware)->post('/mobile/login', function(\Illuminate\
 	return response()->json(
 		$user->createToken('AUTH_TOKEN')->plainTextToken
 	);
-
-	// return ['token' => $user->createToken('AUTH_TOKEN')->plainTextToken];
 });
 
-Route::middleware($authMiddleware)->get('/account', function() {
+Route::middleware('auth:sanctum')->get('/account', function() {
 	return \Inertia\Inertia::render('Account');
 });
 
-Route::middleware($authMiddleware)->get('/logout', function(\Illuminate\Http\Request $request) {
+Route::middleware('auth:sanctum')->post('/logout', function(\Illuminate\Http\Request $request) {
 	auth()->guard('web')->logout();
 
 	if ($request->hasSession()) {
@@ -64,4 +58,10 @@ Route::middleware($authMiddleware)->get('/logout', function(\Illuminate\Http\Req
 	}
 
 	return redirect()->to('/');
+});
+
+Route::middleware('auth:sanctum')->post('/mobile/logout', function(\Illuminate\Http\Request $request) {
+	$request->user()->currentAccessToken()->delete();
+
+	return response()->json('/');
 });

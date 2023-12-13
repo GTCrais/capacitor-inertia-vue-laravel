@@ -1,10 +1,9 @@
 {
-    "appId": "consulting.bluem2.capatest",
-    "appName": "CapaTest",
+    "appId": "foo.bar.capacitor.test",
+    "appName": "Laravel / Vue / Inertia POC",
     "webDir": "public/build/assets",
     "server": {
-        "androidScheme": "http",
-        "cleartext": true
+        "androidScheme": "http"
     },
     "android": {
         "path": "mobile/android"

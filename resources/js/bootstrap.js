@@ -4,12 +4,29 @@
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 import axios from 'axios';
+import { Capacitor } from '@capacitor/core';
+import { Preferences } from '@capacitor/preferences';
 
-window.axios = axios;
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.baseURL = window.app_base_url;
-window.axios.defaults.withCredentials = true;
-window.axios.defaults.withXSRFToken = true;
+class Bootstrap
+{
+	static async setupAxios() {
+		window.axios = axios;
+		window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+		window.axios.defaults.baseURL = window.app_base_url;
+		window.axios.defaults.withCredentials = true;
+		window.axios.defaults.withXSRFToken = true;
+
+		if (Capacitor.isNativePlatform()) {
+			const token = await Preferences.get({ key: 'auth_token' });
+
+			if (token) {
+				window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+			}
+		}
+	}
+}
+
+export default Bootstrap;
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

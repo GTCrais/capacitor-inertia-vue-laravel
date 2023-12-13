@@ -4,7 +4,8 @@
 	</Head>
 
 	<div class="grow mx-auto max-w-7xl flex w-full px-6">
-		User account for: {{ email }}
+		User Account<br>
+		User: {{ email }}
 	</div>
 </template>
 
@@ -33,7 +34,7 @@
 
 		computed: {
 			email() {
-				return (this.user?.email || 'No email');
+				return (this.user?.email || 'Something went wrong');
 			}
 		}
 	}

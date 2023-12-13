@@ -4,7 +4,8 @@
 	</Head>
 
 	<div class="grow mx-auto max-w-7xl flex w-full px-6">
-		Homepage
+		Homepage<br>
+		User: {{ email }}
 	</div>
 </template>
 
@@ -34,7 +35,11 @@
 
 		},
 
-		computed: {}
+		computed: {
+			email() {
+				return (this.user?.email || 'Not Authenticated');
+			}
+		}
 	}
 
 </script>

@@ -66,8 +66,14 @@
 <script>
 	import { Head, useForm } from '@inertiajs/vue3'
 	import { Capacitor } from '@capacitor/core';
+	import { Preferences } from '@capacitor/preferences';
+	import UrlHelper from "@/js/mixins/url-helper";
 
 	export default {
+		mixins: [
+			UrlHelper
+		],
+
 		components: {
 			Head
 		},
@@ -81,8 +87,7 @@
 				form: useForm({
 					email: null,
 					password: null
-				}),
-				generalError: null
+				})
 			};
 		},
 
@@ -105,18 +110,19 @@
 				if (Capacitor.isNativePlatform()) {
 					this.form.processing = true;
 
-					axios.post(window.app_base_url + '/mobile/login', { email: this.form.email, password: this.form.password})
-						.then((token) => {
-							console.error(token);
+					axios.post(this.url('mobile/login'), { email: this.form.email, password: this.form.password})
+						.then((response) => {
+							window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data;
+							Preferences.set({ key: 'auth_token', value: response.data });
 							this.form.processing = false;
+							this.$inertia.get(this.url('account'));
 						})
-						.catch((error) => {
-						    console.error(error);
-							this.form.setError('general', 'Incorrect login credentials');
+						.catch((response) => {
+							this.form.setError('general', response.data.message);
 							this.form.processing = false;
 						});
 				} else {
-					this.form.post(window.app_base_url + '/login', { preserveScroll: true });
+					this.form.post(this.url('login'), { preserveScroll: true });
 				}
 			}
 		},
