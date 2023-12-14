@@ -1,4 +1,4 @@
-package consulting.bluem2.capatest;
+package foo.bar.capacitor.test;
 
 import com.getcapacitor.BridgeActivity;
 

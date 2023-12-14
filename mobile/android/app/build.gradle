@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "consulting.bluem2.capatest"
+    namespace "foo.bar.capacitor.test"
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "consulting.bluem2.capatest"
+        applicationId "foo.bar.capacitor.test"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

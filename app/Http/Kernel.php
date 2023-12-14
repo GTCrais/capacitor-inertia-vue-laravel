@@ -3,7 +3,6 @@
 namespace App\Http;
 
 use App\Http\Middleware\HandleInertiaRequests;
-use App\Http\Middleware\RequestInspector;
 use App\Http\Middleware\SanctumMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -17,7 +16,6 @@ class Kernel extends HttpKernel
      * @var array<int, class-string|string>
      */
     protected $middleware = [
-		RequestInspector::class,
         // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
         \Illuminate\Http\Middleware\HandleCors::class,

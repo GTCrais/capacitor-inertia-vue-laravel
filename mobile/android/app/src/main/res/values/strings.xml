@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">CapaTest</string>
-    <string name="title_activity_main">CapaTest</string>
-    <string name="package_name">consulting.bluem2.capatest</string>
-    <string name="custom_url_scheme">consulting.bluem2.capatest</string>
+    <string name="app_name">Laravel / Vue / Inertia POC</string>
+    <string name="title_activity_main">Laravel / Vue / Inertia POC</string>
+    <string name="package_name">foo.bar.capacitor.test</string>
+    <string name="custom_url_scheme">foo.bar.capacitor.test</string>
 </resources>
