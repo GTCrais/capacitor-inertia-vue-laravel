@@ -51,6 +51,12 @@
 			}
 		},
 
+		created() {
+			if (Capacitor.isNativePlatform()) {
+				this.$inertia.get(this.url('/'));
+			}
+		},
+
 		mounted() {
 
 		},

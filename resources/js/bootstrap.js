@@ -17,10 +17,10 @@ class Bootstrap
 		window.axios.defaults.withXSRFToken = true;
 
 		if (Capacitor.isNativePlatform()) {
-			const token = await Preferences.get({ key: 'auth_token' });
+			const storedToken = await Preferences.get({ key: 'auth_token' });
 
-			if (token) {
-				window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+			if (storedToken.value) {
+				window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + storedToken.value;
 			}
 		}
 	}
